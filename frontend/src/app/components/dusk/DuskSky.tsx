@@ -43,8 +43,8 @@ export function DuskSky() {
   );
 
   // celestial body: descends, GROWS, and dims slightly near the horizon
-  const bodyY = useTransform(p, [0, 1], ["8vh", "78vh"]);
-  const bodyScale = useTransform(p, [0, 1], [0.92, 1.32]);
+  const bodyY = useTransform(p, [0, 1], ["6vh", "76vh"]);
+  const bodyScale = useTransform(p, [0, 1], [1.05, 1.55]);
   const bodyOpacity = useTransform(p, [0, 0.78, 0.97, 1], isDark ? [1, 1, 0.72, 0.5] : [1, 1, 0.55, 0.08]);
   const horizonGlow = useTransform(p, [0.22, 0.8], [0, 1]);
   const skylineOpacity = useTransform(p, [0.18, 0.6], [0, 1]);
@@ -78,7 +78,7 @@ export function DuskSky() {
     return (
       <div aria-hidden className="fixed inset-0 -z-10">
         <div className="absolute inset-0" style={{ background: `linear-gradient(180deg, ${stops.top[0]}, ${stops.mid[2]}, ${stops.bottom[2]})` }} />
-        <div className="absolute left-1/2 top-[12vh] size-56 -translate-x-1/2 rounded-full" style={{ background: isDark ? "radial-gradient(circle at 38% 35%, #f6f3ff, #c8cae6 70%)" : "radial-gradient(circle at 38% 35%, #fff6d6, #ff9a4d 72%)" }} />
+        <div className="absolute left-1/2 top-[10vh] size-80 -translate-x-1/2 rounded-full" style={{ background: isDark ? "radial-gradient(circle at 38% 35%, #f6f3ff, #c8cae6 70%)" : "radial-gradient(circle at 38% 35%, #fff6d6, #ff9a4d 72%)" }} />
         <Skyline theme={theme} />
       </div>
     );
@@ -156,7 +156,7 @@ function Sun({ p }: { p: MotionValue<number> }) {
   const glowBg = useTransform(glowC, (x) => `radial-gradient(circle, ${x} 0%, rgba(255,120,60,0.16) 40%, transparent 66%)`);
 
   return (
-    <div className="relative grid place-items-center" style={{ width: "min(48vw, 440px)", height: "min(48vw, 440px)" }}>
+    <div className="relative grid place-items-center" style={{ width: "min(74vw, 720px)", height: "min(74vw, 720px)" }}>
       {/* ambient sky glow that follows the sun */}
       <motion.div className="absolute rounded-full" style={{ width: "190%", height: "190%", background: glowBg, filter: "blur(48px)" }} />
       {/* slow radiant rays */}
@@ -191,7 +191,7 @@ function Moon({ p }: { p: MotionValue<number> }) {
   const glowBg = useTransform(glowC, (x) => `radial-gradient(circle, ${x} 0%, rgba(150,160,220,0.1) 44%, transparent 64%)`);
 
   return (
-    <div className="relative grid place-items-center" style={{ width: "min(42vw, 380px)", height: "min(42vw, 380px)" }}>
+    <div className="relative grid place-items-center" style={{ width: "min(66vw, 640px)", height: "min(66vw, 640px)" }}>
       {/* ambient halo that follows the moon */}
       <motion.div className="absolute rounded-full" style={{ width: "175%", height: "175%", background: glowBg, filter: "blur(40px)" }} />
       {/* core sphere (color-shifting) */}

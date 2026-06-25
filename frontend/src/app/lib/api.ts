@@ -5,6 +5,10 @@
 
 const BASE_URL = (import.meta.env.VITE_API_URL as string) || "http://localhost:8000";
 
+// On the public Vercel demo there is no backend, so reads fall back to baked-in
+// snapshots (see fallback.ts) — the marketplace renders fully without a server.
+import { FALLBACK_LISTINGS, FALLBACK_VENDORS, FALLBACK_IMPACT, FALLBACK_ALERTS } from "./fallback";
+
 // ── Types (mirroring backend schemas) ─────────────────────────────────────────
 
 export interface Vendor {
@@ -158,7 +162,7 @@ export interface ListingsFilter {
   vendor_id?: string;
 }
 
-export function getListings(filters: ListingsFilter = {}): Promise<Listing[]> {
+export async function getListings(filters: ListingsFilter = {}): Promise<Listing[]> {
   const params = new URLSearchParams();
   for (const [k, v] of Object.entries(filters)) {
     if (v !== undefined && v !== null && v !== "") {
@@ -166,11 +170,25 @@ export function getListings(filters: ListingsFilter = {}): Promise<Listing[]> {
     }
   }
   const qs = params.toString() ? `?${params.toString()}` : "";
-  return apiFetch<Listing[]>(`/api/listings${qs}`);
+  try {
+    return await apiFetch<Listing[]>(`/api/listings${qs}`);
+  } catch {
+    let list = FALLBACK_LISTINGS;
+    if (filters.category) list = list.filter((l) => l.category === filters.category);
+    if (filters.is_surprise_bag !== undefined) list = list.filter((l) => l.is_surprise_bag === filters.is_surprise_bag);
+    if (filters.vendor_id) list = list.filter((l) => l.vendor_id === filters.vendor_id);
+    return list;
+  }
 }
 
-export function getListing(id: string): Promise<Listing> {
-  return apiFetch<Listing>(`/api/listings/${id}`);
+export async function getListing(id: string): Promise<Listing> {
+  try {
+    return await apiFetch<Listing>(`/api/listings/${id}`);
+  } catch {
+    const f = FALLBACK_LISTINGS.find((l) => l.id === id);
+    if (f) return f;
+    throw new Error("Listing not found");
+  }
 }
 
 export function getListingPrice(id: string): Promise<ListingPrice> {
@@ -205,12 +223,22 @@ export function createListing(body: ListingCreateBody): Promise<Listing> {
 
 // ── Vendors ───────────────────────────────────────────────────────────────────
 
-export function getVendors(): Promise<Vendor[]> {
-  return apiFetch<Vendor[]>("/api/vendors");
+export async function getVendors(): Promise<Vendor[]> {
+  try {
+    return await apiFetch<Vendor[]>("/api/vendors");
+  } catch {
+    return FALLBACK_VENDORS;
+  }
 }
 
-export function getVendor(id: string): Promise<Vendor> {
-  return apiFetch<Vendor>(`/api/vendors/${id}`);
+export async function getVendor(id: string): Promise<Vendor> {
+  try {
+    return await apiFetch<Vendor>(`/api/vendors/${id}`);
+  } catch {
+    const f = FALLBACK_VENDORS.find((v) => v.id === id);
+    if (f) return f;
+    throw new Error("Vendor not found");
+  }
 }
 
 export function getVendorListings(vendorId: string): Promise<Listing[]> {
@@ -244,8 +272,12 @@ export function collectReservation(id: string): Promise<Reservation> {
 
 // ── Impact ────────────────────────────────────────────────────────────────────
 
-export function getMyImpact(buyer_id = "b1"): Promise<ImpactStats> {
-  return apiFetch<ImpactStats>(`/api/impact/me?buyer_id=${buyer_id}`);
+export async function getMyImpact(buyer_id = "b1"): Promise<ImpactStats> {
+  try {
+    return await apiFetch<ImpactStats>(`/api/impact/me?buyer_id=${buyer_id}`);
+  } catch {
+    return FALLBACK_IMPACT;
+  }
 }
 
 export function getWardImpact(wardCode: string) {
@@ -254,8 +286,12 @@ export function getWardImpact(wardCode: string) {
 
 // ── Flock Alerts ──────────────────────────────────────────────────────────────
 
-export function getAlerts(buyer_id = "b1"): Promise<FlockAlert[]> {
-  return apiFetch<FlockAlert[]>(`/api/flock-alerts?buyer_id=${buyer_id}`);
+export async function getAlerts(buyer_id = "b1"): Promise<FlockAlert[]> {
+  try {
+    return await apiFetch<FlockAlert[]>(`/api/flock-alerts?buyer_id=${buyer_id}`);
+  } catch {
+    return FALLBACK_ALERTS;
+  }
 }
 
 export interface AlertCreateBody {
