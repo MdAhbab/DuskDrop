@@ -14,7 +14,7 @@ import {
   Plus,
   Sparkles,
 } from "lucide-react";
-import { CURRENCY, fmtCountdown, decay_series_from_listing } from "../lib/data";
+import { CURRENCY, decay_series_from_listing, currentPrice as computePrice, discountPct, msUntil } from "../lib/data";
 import { useClock } from "../lib/theme";
 import { CountdownRing } from "../components/dusk/CountdownRing";
 import { MagneticButton } from "../components/dusk/MagneticButton";
@@ -30,8 +30,7 @@ export default function ListingDetail() {
   const [notFound, setNotFound] = useState(false);
   const [activeImg, setActiveImg] = useState(0);
   const [qty, setQty] = useState(1);
-  const [livePrice, setLivePrice] = useState<api.ListingPrice | null>(null);
-  const clock = useClock(5000); // refresh price every 5s
+  useClock(1000); // re-render each second so the price & countdown tick live
 
   useEffect(() => {
     if (!id) return;
@@ -39,15 +38,6 @@ export default function ListingDetail() {
       .then(setListing)
       .catch(() => setNotFound(true));
   }, [id]);
-
-  // Live price polling via lightweight endpoint
-  useEffect(() => {
-    if (!id || !listing) return;
-    api.getListingPrice(id)
-      .then(setLivePrice)
-      .catch(console.error);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, clock, listing?.id]);
 
   if (notFound) return <NotFound />;
   if (!listing) {
@@ -59,9 +49,9 @@ export default function ListingDetail() {
   }
 
   const vendor = listing.vendor;
-  const currentPrice = livePrice?.current_price ?? listing.current_price;
-  const discountP = livePrice?.discount_pct ?? listing.discount_pct;
-  const msClose = livePrice?.ms_until_close ?? listing.ms_until_close;
+  const currentPrice = computePrice(listing);
+  const discountP = discountPct(listing);
+  const msClose = msUntil(listing);
   const totalMs = (new Date(listing.expiry_time).getTime() - new Date(listing.list_time).getTime());
 
   // Build decay series client-side from listing data

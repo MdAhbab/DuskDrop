@@ -10,6 +10,7 @@ interface Building {
   cols: number;
   rows: number;
   lit: boolean[];
+  flick: boolean[];   // only this subset animates — the rest are static
   delays: number[];
 }
 
@@ -29,8 +30,9 @@ function makeRow(seed: number, count: number, minH: number, maxH: number): Build
   return Array.from({ length: count }, (_, i) => {
     const w = 42 + Math.round(rnd() * 48);
     const h = minH + Math.round(rnd() * (maxH - minH));
-    const cols = Math.max(2, Math.round(w / 15));
-    const rows = Math.max(3, Math.round(h / 20));
+    // Coarser window grid keeps the silhouette while cutting node count ~40%.
+    const cols = Math.max(2, Math.round(w / 18));
+    const rows = Math.max(3, Math.round(h / 26));
     const n = cols * rows;
     return {
       id: i,
@@ -40,6 +42,9 @@ function makeRow(seed: number, count: number, minH: number, maxH: number): Build
       cols,
       rows,
       lit: Array.from({ length: n }, () => rnd() > 0.4),
+      // ~18% of windows twinkle; the rest stay lit-but-static so we aren't
+      // running an infinite keyframe on every node for the whole session.
+      flick: Array.from({ length: n }, () => rnd() > 0.82),
       delays: Array.from({ length: n }, () => rnd() * 5),
     };
   });
@@ -78,7 +83,11 @@ function BuildingShape({ b, ls }: { b: Building; ls: LayerStyle }) {
               <span
                 key={i}
                 className="rounded-[1px]"
-                style={{ background: ls.window, animation: `ddWindow ${4 + (b.delays[i] % 3)}s ease-in-out ${b.delays[i]}s infinite`, boxShadow: `0 0 5px ${ls.window}` }}
+                style={
+                  b.flick[i]
+                    ? { background: ls.window, animation: `ddWindow ${4 + (b.delays[i] % 3)}s ease-in-out ${b.delays[i]}s infinite` }
+                    : { background: ls.window }
+                }
               />
             ) : (
               <span key={i} className="rounded-[1px]" style={{ background: "rgba(0,0,0,0.28)" }} />
@@ -103,9 +112,9 @@ function Row({ buildings, ls, className, align = "end" }: { buildings: Building[
 /** A premium, multi-layer city silhouette with rim-lit roofs, warm windows,
  *  and a wet-street reflection of the lights. */
 export function Skyline({ theme }: { theme: "dark" | "light" }) {
-  const farFar = useMemo(() => makeRow(3, 20, 50, 110), []);
-  const back = useMemo(() => makeRow(7, 16, 80, 160), []);
-  const front = useMemo(() => makeRow(91, 13, 120, 240), []);
+  const farFar = useMemo(() => makeRow(3, 15, 50, 110), []);
+  const back = useMemo(() => makeRow(7, 12, 80, 160), []);
+  const front = useMemo(() => makeRow(91, 10, 120, 240), []);
   const reflections = useMemo(
     () =>
       Array.from({ length: 22 }, (_, i) => {

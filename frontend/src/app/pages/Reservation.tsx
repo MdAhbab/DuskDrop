@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router";
 import { motion, AnimatePresence } from "motion/react";
 import { Clock3, MapPin, Navigation, Leaf, Check, ArrowLeft, Flame } from "lucide-react";
-import { CURRENCY, fmtCountdown } from "../lib/data";
+import { CURRENCY, msUntil } from "../lib/data";
 import { useClock } from "../lib/theme";
 import { CountdownRing } from "../components/dusk/CountdownRing";
 import { MagneticButton } from "../components/dusk/MagneticButton";
@@ -96,7 +96,7 @@ export default function Reservation() {
   const vendor = listing.vendor;
   const locked = reservation.locked_price;
   const code = reservation.qr_code;
-  const msClose = listing.ms_until_close;
+  const msClose = msUntil(listing);
   const totalMs = new Date(listing.expiry_time).getTime() - new Date(listing.list_time).getTime();
 
   return (

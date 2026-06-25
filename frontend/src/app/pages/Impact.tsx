@@ -7,6 +7,7 @@ import { MagneticButton } from "../components/dusk/MagneticButton";
 import { Footer } from "../components/dusk/Footer";
 import { toast } from "sonner";
 import * as api from "../lib/api";
+import { FALLBACK_IMPACT } from "../lib/fallback";
 
 function Num({ to, decimals = 0 }: { to: number; decimals?: number }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -29,30 +30,8 @@ function Num({ to, decimals = 0 }: { to: number; decimals?: number }) {
   return <span ref={ref} className="tnum">{n.toLocaleString("en-IN", { maximumFractionDigits: decimals, minimumFractionDigits: decimals })}</span>;
 }
 
-const FALLBACK: api.ImpactStats = {
-  meals_rescued_global: 412000,
-  my_meals: 47,
-  my_kg: 18.4,
-  my_co2e_kg: 39.2,
-  streak_days: 12,
-  best_streak: 21,
-  rank_ward: 3,
-  ward_name: "Dhanmondi",
-  weekly: [
-    { day: "Mon", meals: 4 }, { day: "Tue", meals: 2 }, { day: "Wed", meals: 6 },
-    { day: "Thu", meals: 3 }, { day: "Fri", meals: 8 }, { day: "Sat", meals: 5 }, { day: "Sun", meals: 7 },
-  ],
-  leaderboard: [
-    { name: "Nadia R.", meals: 64, you: false },
-    { name: "Imran K.", meals: 58, you: false },
-    { name: "You", meals: 47, you: true },
-    { name: "Tania H.", meals: 41, you: false },
-    { name: "Rafi A.", meals: 38, you: false },
-  ],
-};
-
 export default function Impact() {
-  const [stats, setStats] = useState<api.ImpactStats>(FALLBACK);
+  const [stats, setStats] = useState<api.ImpactStats>(FALLBACK_IMPACT);
 
   useEffect(() => {
     api.getMyImpact().then(setStats).catch(console.error);

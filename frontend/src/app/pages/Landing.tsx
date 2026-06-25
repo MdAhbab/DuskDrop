@@ -490,7 +490,7 @@ function HowItWorks() {
                     style={{
                       borderColor: active === i ? "var(--ember)" : "var(--border)",
                       color: active === i ? "var(--ember)" : "var(--ink-dim)",
-                      background: active === i ? "var(--ember)/10" : "transparent",
+                      background: active === i ? "color-mix(in oklab, var(--ember) 10%, transparent)" : "transparent",
                     }}
                   >
                     {s.icon}

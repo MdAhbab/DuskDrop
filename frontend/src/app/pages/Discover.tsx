@@ -7,6 +7,9 @@ import {
   DIETARY_TAGS,
   CURRENCY,
   fmtCountdown,
+  currentPrice,
+  discountPct,
+  msUntil,
   type Category,
 } from "../lib/data";
 import { useClock } from "../lib/theme";
@@ -227,6 +230,9 @@ function Chip({ children, active, onClick, small }: { children: React.ReactNode;
 
 function SheetCard({ listing: l, active, onHover }: { listing: api.Listing; active: boolean; onHover: () => void }) {
   const vendor = l.vendor;
+  const price = currentPrice(l);
+  const pct = discountPct(l);
+  const remaining = msUntil(l);
   return (
     <Link
       to={`/listing/${l.id}`}
@@ -242,13 +248,13 @@ function SheetCard({ listing: l, active, onHover }: { listing: api.Listing; acti
         </div>
         <div className="truncate font-display text-[var(--ink)]">{l.title}</div>
         <div className="mt-1 flex items-center gap-2">
-          <span className="tnum font-display text-lg text-[var(--ink)]">{CURRENCY}{l.current_price}</span>
+          <span className="tnum font-display text-lg text-[var(--ink)]">{CURRENCY}{price}</span>
           <span className="tnum text-xs text-[var(--ink-dim)] line-through">{CURRENCY}{l.original_price}</span>
-          <span className="rounded-full bg-[var(--amber)]/15 px-1.5 text-xs text-[var(--amber)]">−{l.discount_pct}%</span>
+          <span className="rounded-full bg-[var(--amber)]/15 px-1.5 text-xs text-[var(--amber)]">−{pct}%</span>
         </div>
         <div className="mt-1 flex items-center gap-3 text-xs text-[var(--ink-dim)]">
           <span className="inline-flex items-center gap-1"><Footprints className="size-3" />{l.walk_min}m</span>
-          <span className="inline-flex items-center gap-1 tnum text-[var(--ember)]">{fmtCountdown(l.ms_until_close)}</span>
+          <span className="inline-flex items-center gap-1 tnum text-[var(--ember)]">{fmtCountdown(remaining)}</span>
         </div>
       </div>
     </Link>
@@ -283,7 +289,8 @@ function DuskMap({ listings: items, active, onSelect }: { listings: api.Listing[
 
       {/* pins */}
       {items.map((l) => {
-        const urgent = l.ms_until_close < 20 * 60000;
+        const remaining = msUntil(l);
+        const urgent = remaining < 20 * 60000;
         const isActive = active === l.id;
         // Use vendor lat/lng for pin position or fallback to index
         const pinLat = l.vendor?.lat ?? 50;
@@ -319,7 +326,7 @@ function DuskMap({ listings: items, active, onSelect }: { listings: api.Listing[
                   exit={{ opacity: 0 }}
                   className="absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[var(--ink)] px-2.5 py-1 text-xs text-[var(--bg)]"
                 >
-                  {CURRENCY}{l.current_price} · {fmtCountdown(l.ms_until_close)}
+                  {CURRENCY}{currentPrice(l)} · {fmtCountdown(remaining)}
                 </motion.span>
               )}
             </AnimatePresence>

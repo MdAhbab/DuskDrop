@@ -83,6 +83,15 @@ export function discountPct(listing: ApiListing, nowMs = Date.now()): number {
   return Math.round((1 - p / listing.original_price) * 100);
 }
 
+/**
+ * Milliseconds left until a listing closes, derived from the clock — not the
+ * `ms_until_close` snapshot the API returns, which is frozen at fetch time.
+ * Pair with `useClock()` so countdowns actually tick.
+ */
+export function msUntil(listing: ApiListing, nowMs = Date.now()): number {
+  return Math.max(0, new Date(listing.expiry_time).getTime() - nowMs);
+}
+
 // ---- time utils ------------------------------------------------------------
 
 export function fmtCountdown(ms: number): string {

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import { motion } from "motion/react";
 import { Sparkles, Eye, ArrowRight } from "lucide-react";
-import { CURRENCY, currentPrice, fmtCountdown } from "../lib/data";
+import { CURRENCY, currentPrice, fmtCountdown, msUntil } from "../lib/data";
 import { useClock } from "../lib/theme";
 import { Eyebrow } from "../components/dusk/Reveal";
 import { Footer } from "../components/dusk/Footer";
@@ -96,7 +96,7 @@ function PaperBag() {
 function BagCard({ listing, index, hintInfo }: { listing: api.Listing; index: number; hintInfo: { glyph: string; hint: string } }) {
   const [hover, setHover] = useState(false);
   const v = listing.vendor;
-  const remaining = listing.ms_until_close;
+  const remaining = msUntil(listing);
   const valueLow = listing.value_low ?? Math.round(listing.original_price * 2.5);
   const valueHigh = listing.value_high ?? Math.round(listing.original_price * 3.5);
 

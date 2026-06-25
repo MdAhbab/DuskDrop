@@ -3,14 +3,14 @@ import { motion } from "motion/react";
 import { MapPin, Footprints, Clock3, Sparkles } from "lucide-react";
 import { ImageWithFallback } from "../custom/ImageWithFallback";
 import { TickingPrice } from "./TickingPrice";
-import { fmtCountdown } from "../../lib/data";
+import { fmtCountdown, msUntil } from "../../lib/data";
 import { useClock } from "../../lib/theme";
 import * as api from "../../lib/api";
 
 export function ListingCard({ listing, index = 0 }: { listing: api.Listing; index?: number }) {
   useClock(1000);
   const vendor = listing.vendor;
-  const remaining = listing.ms_until_close;
+  const remaining = msUntil(listing);
   const urgent = remaining < 15 * 60 * 1000;
   const soldOut = listing.qty_remaining <= 0;
 
