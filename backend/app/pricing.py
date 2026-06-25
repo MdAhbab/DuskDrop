@@ -64,6 +64,8 @@ def discount_pct(
     expiry_time: datetime,
     now: datetime | None = None,
 ) -> int:
+    if original_price <= 0:
+        return 0
     price = current_price(original_price, max_discount, decay_curve, list_time, expiry_time, now)
     return round((1 - price / original_price) * 100)
 

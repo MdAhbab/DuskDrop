@@ -3,7 +3,7 @@ Pydantic v2 schemas for DuskDrop API request/response validation.
 """
 from datetime import datetime
 from typing import Optional, List
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 # ── Vendor ────────────────────────────────────────────────────────────────────
@@ -66,16 +66,16 @@ class ListingCreate(BaseModel):
     photos: List[str] = []
     allergens: List[str] = []
     dietary: List[str] = []
-    original_price: int
-    qty_total: int
+    original_price: int = Field(gt=0)
+    qty_total: int = Field(gt=0)
     pickup_window_label: str = ""
-    max_discount: float = 0.6
+    max_discount: float = Field(default=0.6, ge=0, le=1)
     decay_curve: str = "linear"
     is_surprise_bag: bool = False
     value_low: Optional[int] = None
     value_high: Optional[int] = None
     # How many minutes from now until the listing expires
-    expires_in_min: int = 120
+    expires_in_min: int = Field(default=120, gt=0)
 
 
 class ListingPriceOut(BaseModel):
@@ -90,7 +90,7 @@ class ListingPriceOut(BaseModel):
 
 class ReservationCreate(BaseModel):
     listing_id: str
-    qty: int = 1
+    qty: int = Field(default=1, ge=1)
     buyer_id: str = "b1"   # demo buyer — auth layer future milestone
 
 
