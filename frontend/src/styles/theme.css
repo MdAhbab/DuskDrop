@@ -1,0 +1,329 @@
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* ===== DuskDrop — "Golden afternoon" (light) ===== */
+  --bg: #fbf4ea;
+  --bg-elev: #ffffff;
+  --ink: #241a12;
+  --ink-dim: #6b5a49;
+  --ember: #e2502a;
+  --amber: #e89b2e;
+  --gold: #c99528;
+  --indigo: #3a2f63;
+  --success: #3e8e51;
+  --dusk-gradient: linear-gradient(135deg, var(--gold) 0%, var(--amber) 35%, var(--ember) 68%, var(--indigo) 100%);
+  --grain-opacity: 0.05;
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, monospace;
+
+  --font-size: 16px;
+  /* shadcn semantic tokens, retuned to the warm palette */
+  --background: #fbf4ea;
+  --foreground: #241a12;
+  --card: #ffffff;
+  --card-foreground: #241a12;
+  --popover: #ffffff;
+  --popover-foreground: #241a12;
+  --primary: #e2502a;
+  --primary-foreground: #fff7ee;
+  --secondary: #f3e7d6;
+  --secondary-foreground: #241a12;
+  --muted: #f0e6d8;
+  --muted-foreground: #6b5a49;
+  --accent: #f7ecd9;
+  --accent-foreground: #241a12;
+  --destructive: #c0341b;
+  --destructive-foreground: #ffffff;
+  --border: rgba(60, 40, 20, 0.12);
+  --input: transparent;
+  --input-background: #f6ecdd;
+  --switch-background: #d9c8b2;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --ring: #c99528;
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: #030213;
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  /* ===== DuskDrop — "Dusk" (dark, default hero feeling) ===== */
+  --bg: #14100e;
+  --bg-elev: #1e1814;
+  --ink: #f6ece0;
+  --ink-dim: #b9a793;
+  --ember: #ff6a3d;
+  --amber: #ffb454;
+  --gold: #f4c95d;
+  --indigo: #2b2150;
+  --success: #7bc47f;
+  --dusk-gradient: linear-gradient(135deg, var(--gold) 0%, var(--amber) 32%, var(--ember) 64%, var(--indigo) 100%);
+  --grain-opacity: 0.07;
+
+  --background: #14100e;
+  --foreground: #f6ece0;
+  --card: #1e1814;
+  --card-foreground: #f6ece0;
+  --popover: #1e1814;
+  --popover-foreground: #f6ece0;
+  --primary: #ff6a3d;
+  --primary-foreground: #1a0f08;
+  --secondary: #2a221b;
+  --secondary-foreground: #f6ece0;
+  --muted: #241c16;
+  --muted-foreground: #b9a793;
+  --accent: #2e251c;
+  --accent-foreground: #f6ece0;
+  --destructive: #ff5a3c;
+  --destructive-foreground: #1a0f08;
+  --border: rgba(246, 236, 224, 0.1);
+  --input: rgba(246, 236, 224, 0.06);
+  --input-background: #241c16;
+  --switch-background: #3a2f24;
+  --ring: #f4c95d;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.439 0 0);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-elev: var(--bg-elev);
+  --color-ink: var(--ink);
+  --color-ink-dim: var(--ink-dim);
+  --color-ember: var(--ember);
+  --color-amber: var(--amber);
+  --color-gold: var(--gold);
+  --color-indigo: var(--indigo);
+  --color-success: var(--success);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /**
+  * Default typography styles for HTML elements (h1-h4, p, label, button, input).
+  * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
+  */
+
+  html {
+    font-size: var(--font-size);
+  }
+
+  h1 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h2 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h4 {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  label {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  button {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  input {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+  }
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+  /* Headlines speak in Fraunces. */
+  .font-display {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+  }
+  .font-mono,
+  .tnum {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+  ::selection {
+    background: var(--ember);
+    color: #fff;
+  }
+}
+
+/* ===== DuskDrop utilities ===== */
+@utility dusk-gradient {
+  background-image: var(--dusk-gradient);
+}
+@utility text-dusk-gradient {
+  background-image: var(--dusk-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Warm, low-angle "setting sun" shadows */
+.shadow-dusk {
+  box-shadow: 0 1px 0 rgba(255, 180, 84, 0.04),
+    18px 26px 50px -24px rgba(20, 12, 6, 0.55),
+    0 2px 10px -4px rgba(0, 0, 0, 0.3);
+}
+.dark .shadow-dusk {
+  box-shadow: 22px 30px 60px -28px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 180, 84, 0.04);
+}
+.shadow-ember {
+  box-shadow: 0 10px 40px -12px rgba(255, 106, 61, 0.5);
+}
+
+/* Film grain — kills the flat-gradient AI look. */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Custom dusk easing helpers */
+.ease-dusk {
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Celestial + city ambience (CSS-driven for performance vs per-node motion) */
+@keyframes ddTwinkle {
+  0%, 100% { opacity: 0.12; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1); }
+}
+@keyframes ddWindow {
+  0%, 100% { opacity: 0.28; }
+  50% { opacity: 0.92; }
+}
+@keyframes ddDrift {
+  from { transform: translateX(0); }
+  to { transform: translateX(-40px); }
+}
+@keyframes ddRays {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
